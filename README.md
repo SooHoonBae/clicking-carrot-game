@@ -1,3 +1,3 @@
-# Carrots Game
+# Carrot Game
 
-click carrots within 10 seconds
+click carrots withing 10 seconds.
