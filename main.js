@@ -15,7 +15,18 @@ playBtn.addEventListener('click',()=>{
             numb.textContent='10';
             makeTenCarrot();
             i++;
-        }else{
+            let timeleft=9;
+            const timer = setInterval(function(){
+                if(timeleft<0){
+                    clearInterval(timer);
+                }else{
+                    time.textContent=`0:${timeleft}`;
+                    timeleft--;
+                }
+                },1000);
+
+            }
+        else{
             return;
         };   
     });
