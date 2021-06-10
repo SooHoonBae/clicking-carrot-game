@@ -3,20 +3,30 @@
 }
 body {
   margin: 0;
+  background-color: black;
+  transform: translateY(10px);
 }
 section {
   width: 800px;
+  height: 450px;
   margin: auto;
   display: flex;
   justify-content: center;
 }
 .background {
   width: 100%;
+  border-radius: 20px;
 }
 .signs {
   position: absolute;
   top: 10px;
   text-align: center;
+}
+button {
+  cursor: pointer;
+}
+button:hover {
+  transform: scale(1.1);
 }
 .signs__play {
   font-size: 16px;
@@ -29,7 +39,7 @@ section {
   background-color: whitesmoke;
   border: 2px solid black;
   border-radius: 10px;
-  padding: 0 24px;
+  width: 130px;
   font-size: 26px;
   margin: 10px 0;
 }
@@ -43,6 +53,12 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  font-size: 36px;
   margin: auto;
+}
+.carrot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(0);
 }
