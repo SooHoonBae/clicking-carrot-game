@@ -4,16 +4,20 @@ const playBtn = document.querySelector('.signs__play');
 const playIcon = document.querySelector('.fa-play');
 const time = document.querySelector('.signs__time');
 const numb = document.querySelector('.signs__numb');
+const stopIcon = document.createElement('i');
+stopIcon.setAttribute('class','fas fa-stop');
 
-playBtn.addEventListener('click',(event)=>{        
-    const stopIcon = document.createElement('i');
-    stopIcon.setAttribute('class','fas fa-stop');
-    
-        playIcon.replaceWith(stopIcon);
-        time.textContent='0:10';
-        numb.textContent='10';
-        makeTenCarrot();
-                
+let i=0;
+playBtn.addEventListener('click',()=>{
+        if(i===0) {
+            playIcon.replaceWith(stopIcon);
+            time.textContent='0:10';
+            numb.textContent='10';
+            makeTenCarrot();
+            i++;
+        }else{
+            return;
+        };   
     });
 
 //making 10 carrots at one click
@@ -29,6 +33,7 @@ function makeTenCarrot() {
         i++;
     };
 }
+//Random coordinate(x,y) of carrot.
 //1. X : left(min) and right(max) x coordination of section
 const sectionRect = section.getBoundingClientRect();
 const minX = sectionRect.left;
@@ -49,4 +54,3 @@ function getRandomY(minY,maxY) {
     const randomY = Math.random()*(maxY-minY) + minY;
     return randomY;
 }
-//5. making img at (randomX, randomY)
