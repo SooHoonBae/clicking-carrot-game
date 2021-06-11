@@ -14,6 +14,7 @@ playBtn.addEventListener('click',()=>{
             time.textContent='0:10';
             numb.textContent='10';
             makeTenCarrot();
+            makeBugs();
             i++;
             let timeleft=9;
             const timer = setInterval(function(){
@@ -41,6 +42,19 @@ function makeTenCarrot() {
         carrot.style.transform = 
         `translate(${getRandomX(minX,maxX)}px,${getRandomY(minY,maxY)-80}px )`;    
         section.appendChild(carrot);
+        i++;
+    };
+}
+//making 7 bugs
+function makeBugs() {
+    let i=0;
+    while(i<7){
+        const bug = document.createElement('img');
+        bug.setAttribute('class','bug');
+        bug.setAttribute('src','img/bug.png');
+        bug.style.transform = 
+        `translate(${getRandomX(minX,maxX)}px,${getRandomY(minY,maxY)-80}px )`;    
+        section.appendChild(bug);
         i++;
     };
 }
