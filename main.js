@@ -39,6 +39,7 @@ function makeTenCarrot() {
         const carrot = document.createElement('img');
         carrot.setAttribute('class','carrot');
         carrot.setAttribute('src','img/carrot.png');
+        carrot.setAttribute('data-id',i);
         carrot.style.transform = 
         `translate(${getRandomX(minX,maxX)}px,${getRandomY(minY,maxY)-80}px )`;    
         section.appendChild(carrot);
@@ -79,3 +80,14 @@ function getRandomY(minY,maxY) {
     const randomY = Math.random()*(maxY-minY) + minY;
     return randomY;
 }
+//delete carrot and decrease count number when click carrot img.
+let count=9;
+section.addEventListener('click',(event)=>{
+    const id = event.target.dataset.id;
+    if(id) {
+        const toBeDeleted = document.querySelector(`.carrot[data-id="${id}"]`);
+        toBeDeleted.remove();
+        numb.textContent=`${count}`;
+        count--;
+    };
+});

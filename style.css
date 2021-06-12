@@ -62,4 +62,5 @@ button:hover {
   top: 0;
   left: 0;
   transform: translateX(0);
+  cursor: pointer;
 }
