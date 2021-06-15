@@ -58,9 +58,9 @@ function makeBugs() {
     };
 }
 
-//countdown
-
-let timeleft=10;
+//countDown
+const timeNumb = 15;
+let timeleft=timeNumb;
 function countDown() {
     if(timeleft>=0){
     time.textContent=`0:${timeleft}`;
@@ -72,9 +72,8 @@ function countDown() {
 }
 let timer=null;
 function startCount() {
+    countDown();//to remove initial time delay
     timer=setInterval(countDown, 1000);
-    
-    
 }
 function stopCount() {
     if(timer!=null){
@@ -84,13 +83,12 @@ function stopCount() {
 
 //start game
 let i=0;
-let count=9;
+let count=10;
 section.addEventListener('click',event=>{
-    const id = event.target.dataset.id;
     if(i===0){
         if(event.target==playBtn||event.target==playIcon){
             playIcon.replaceWith(stopIcon);
-            numb.textContent='10';
+            numb.textContent=`${count}`;
             makeTenCarrot();
             makeBugs();          
             startCount();
@@ -99,14 +97,21 @@ section.addEventListener('click',event=>{
     };
     if(i===1){
         if(event.target==stopIcon) {
-            console.log('hi');
+            stopCount();
+            pressStop();
         }
     }
+    const id = event.target.dataset.id;
     if(id < 10) {
         const toBeDeleted = document.querySelector(`.carrot[data-id="${id}"]`);
         toBeDeleted.remove();
-        numb.textContent=`${count}`;
+        numb.textContent=`${count-1}`;
         count--;
+        
+        if(count==0){
+            stopCount();
+            youWon();
+        }
         
     }else if(id>=10){
         youLost();
@@ -132,33 +137,55 @@ function youLost() {
     lost.appendChild(lostText);
     lostText.textContent='You Lost~!!';
 };
-
+//When Win
+function youWon() {
+    playBtn.style.opacity =0;
+    section.appendChild(lost);
+    lost.appendChild(retryBtn);
+    retryBtn.innerHTML=`
+    <i class="fas fa-redo"></i>
+    `;
+    lost.appendChild(lostText);
+    lostText.textContent='You Won~!!';
+}
+//When press stop button
+function pressStop() {
+    playBtn.style.opacity =0;
+    section.appendChild(lost);
+    lost.appendChild(retryBtn);
+    retryBtn.innerHTML=`
+    <i class="fas fa-redo"></i>
+    `;
+    lost.appendChild(lostText);
+    lostText.textContent='Replay??';
+}
 //retry event
 retryBtn.addEventListener('click',()=>{
     playBtn.style.opacity=1;
     lost.remove();
-    numb.textContent='10';
+    count=10;
+    numb.textContent=`${count}`;
     
-    timeleft=10;
+    timeleft=timeNumb;
     startCount();
-    makeTenCarrot();
-    makeBugs();
-
+    
     const carrots = document.querySelectorAll('.carrot')
-    const bugs = document.querySelectorAll('.bug')
     let i=0;
     while(i<10){
-    let carrot = carrots[i];
-    if(carrot){
-        carrot.remove();
-    }
-    i++;
+        let carrot = carrots[i];
+        if(carrot){
+            carrot.remove();
+        }
+        i++;
     };
+    makeTenCarrot();
     
+    const bugs = document.querySelectorAll('.bug')
     let j=0;
     while(j<7){
         let bug = bugs[j];
         bug.remove();
         j++;
     };
+    makeBugs();
 })
