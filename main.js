@@ -17,17 +17,18 @@ const maxX = sectionRect.right-80;
 const minY = sectionRect.bottom - sectionRect.height*2/5;
 const maxY = sectionRect.bottom;
 
-
 //3. random x coordination between minX and maxX
 function getRandomX(minX,maxX) {
     const randomX = Math.random()*(maxX-minX) + minX;
     return randomX;
 }
+
 //4. random y coordination between minY and maxY
 function getRandomY(minY,maxY) {
     const randomY = Math.random()*(maxY-minY) + minY;
     return randomY;
 }
+
 //making 10 carrots at one click
 function makeTenCarrot() {
     let i=0;
@@ -40,8 +41,7 @@ function makeTenCarrot() {
         `translate(${getRandomX(minX,maxX)}px,${getRandomY(minY,maxY)-80}px )`;    
         section.appendChild(carrot);
         i++;
-    };
-    
+    };    
 }
 //making 7 bugs
 function makeBugs() {
@@ -84,40 +84,37 @@ function stopCount() {
 //start game
 let i=0;
 let count=10;
-section.addEventListener('click',event=>{
+playBtn.addEventListener('click',event=>{
     if(i===0){
-        if(event.target==playBtn||event.target==playIcon){
-            playIcon.replaceWith(stopIcon);
-            numb.textContent=`${count}`;
-            makeTenCarrot();
-            makeBugs();          
-            startCount();
-        };
+        playIcon.replaceWith(stopIcon);
+        numb.textContent=`${count}`;
+        makeTenCarrot();
+        makeBugs();          
+        startCount();
         i++;
+    }else{
+        stopCount();
+        pressStop();
     };
-    if(i===1){
-        if(event.target==stopIcon) {
-            stopCount();
-            pressStop();
-        }
-    }
+});
+
+//click event of carrot or bug
+section.addEventListener('click',event=>{
     const id = event.target.dataset.id;
     if(id < 10) {
         const toBeDeleted = document.querySelector(`.carrot[data-id="${id}"]`);
         toBeDeleted.remove();
         numb.textContent=`${count-1}`;
-        count--;
-        
+        count--;    
         if(count==0){
-            stopCount();
             youWon();
-        }
-        
+            stopCount();
+        };        
     }else if(id>=10){
         youLost();
         stopCount();         
-    };         
-});
+    };
+})
 
 const lost=document.createElement('div');
 lost.setAttribute('class','lost');
@@ -148,6 +145,7 @@ function youWon() {
     lost.appendChild(lostText);
     lostText.textContent='You Won~!!';
 }
+
 //When press stop button
 function pressStop() {
     playBtn.style.opacity =0;
