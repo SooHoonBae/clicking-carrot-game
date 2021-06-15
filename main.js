@@ -57,58 +57,105 @@ function makeBugs() {
         i++;
     };
 }
+
 //countdown
+
+let timeleft=10;
 function countDown() {
-    let timeleft=10;
-    const timer = setInterval(function(){
-        if(timeleft<0){
-            clearInterval(timer);
-            youLost();
-        }else{
-            time.textContent=`0:${timeleft}`;
-            timeleft--;
-        }
-        },1000);
-};
+    if(timeleft>=0){
+    time.textContent=`0:${timeleft}`;
+    timeleft--;
+    }else{
+        youLost();
+    }
+}
+let timer=null;
+function startCount() {
+    timer=setInterval(countDown, 1000);
+}
+function stopCount() {
+    if(timer!=null){
+        clearInterval(timer);
+    }
+}
 
 //start game
 let i=0;
-playBtn.addEventListener('click',event=>{
-    if(i===0) {
-        playIcon.replaceWith(stopIcon);
-        numb.textContent='10';
-        
-        countDown();
-        makeTenCarrot();
-        makeBugs();
-        i++;
-    }
-        
-});
 let count=9;
-section.addEventListener('click',(event)=>{
+section.addEventListener('click',event=>{
     const id = event.target.dataset.id;
+    if(i===0){
+        if(event.target==playBtn||event.target==playIcon){
+            playIcon.replaceWith(stopIcon);
+            numb.textContent='10';
+            makeTenCarrot();
+            makeBugs();          
+            startCount();
+        };
+        i++;
+    };
+    if(i===1){
+        if(event.target==stopIcon) {
+            console.log('hi');
+        }
+    }
     if(id < 10) {
         const toBeDeleted = document.querySelector(`.carrot[data-id="${id}"]`);
         toBeDeleted.remove();
         numb.textContent=`${count}`;
         count--;
         
-        }else if(id>9){
-            youLost();
-                 
-        };
-})    
+    }else if(id>9){
+        youLost();
+        stopCount();         
+    };         
+});
+
+const lost=document.createElement('div');
+lost.setAttribute('class','lost');
+const retryBtn=document.createElement('button');
+retryBtn.setAttribute('class','retry')
+const lostText = document.createElement('span');
+lostText.setAttribute('class','lostText');
+
+//When Fail
 function youLost() {
     playBtn.style.opacity =0;
-    const lost=document.createElement('div');
-    lost.setAttribute('class','lost');
     section.appendChild(lost);
-    lost.innerHTML=`  
-        <button class="retry">
-          <i class="fas fa-redo"></i>
-        </button>
-        <span>You Lost!!</span>
+    lost.appendChild(retryBtn);
+    retryBtn.innerHTML=`
+    <i class="fas fa-redo"></i>
     `;
-    
+    lost.appendChild(lostText);
+    lostText.textContent='You Lost~!!';
 };
+
+//retry event
+retryBtn.addEventListener('click',()=>{
+    playBtn.style.opacity=1;
+    lost.remove();
+    numb.textContent='10';
+    
+    timeleft=10;
+    startCount();
+    makeTenCarrot();
+    makeBugs();
+
+    const carrots = document.querySelectorAll('.carrot')
+    const bugs = document.querySelectorAll('.bug')
+    let i=0;
+    while(i<10){
+    let carrot = carrots[i];
+    if(carrot){
+        carrot.remove();
+    }
+    i++;
+    };
+    
+    let j=0;
+    while(j<7){
+        let bug = bugs[j];
+        bug.remove();
+        j++;
+    };
+})
