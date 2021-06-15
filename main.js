@@ -67,11 +67,14 @@ function countDown() {
     timeleft--;
     }else{
         youLost();
+        stopCount();
     }
 }
 let timer=null;
 function startCount() {
     timer=setInterval(countDown, 1000);
+    
+    
 }
 function stopCount() {
     if(timer!=null){
@@ -105,7 +108,7 @@ section.addEventListener('click',event=>{
         numb.textContent=`${count}`;
         count--;
         
-    }else if(id>9){
+    }else if(id>=10){
         youLost();
         stopCount();         
     };         
