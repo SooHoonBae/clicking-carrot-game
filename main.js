@@ -37,6 +37,7 @@ function makeTenCarrot() {
         carrot.setAttribute('class','carrot');
         carrot.setAttribute('src','img/carrot.png');
         carrot.setAttribute('data-id',i);
+        
         carrot.style.transform = 
         `translate(${getRandomX(minX,maxX)}px,${getRandomY(minY,maxY)-80}px )`;    
         section.appendChild(carrot);
@@ -81,6 +82,22 @@ function stopCount() {
     }
 }
 
+//sound
+const bg=new Audio('sound/bg.mp3');
+const carrotPull=new Audio('sound/carrot_pull.mp3');
+const bugPull=new Audio('sound/bug_pull.mp3');
+const gameWin=new Audio('sound/game_win.mp3');
+const alert=new Audio('sound/alert.wav');
+
+function startBg(){
+    bg.play();
+    bg.loop=true;
+}
+function stopBg(){
+    bg.pause();
+    bg.currentTime=0;   
+}
+
 //start game
 let i=0;
 let count=10;
@@ -91,8 +108,10 @@ playBtn.addEventListener('click',event=>{
         makeTenCarrot();
         makeBugs();          
         startCount();
+        startBg()
         i++;
     }else{
+        stopBg();       
         stopCount();
         pressStop();
     };
@@ -105,14 +124,16 @@ section.addEventListener('click',event=>{
         const toBeDeleted = document.querySelector(`.carrot[data-id="${id}"]`);
         toBeDeleted.remove();
         numb.textContent=`${count-1}`;
-        count--;    
+        count--;
+        carrotPull.play();    
         if(count==0){
             youWon();
             stopCount();
         };        
     }else if(id>=10){
         youLost();
-        stopCount();         
+        stopCount();
+        bugPull.play();         
     };
 })
 
@@ -133,6 +154,7 @@ function youLost() {
     `;
     lost.appendChild(lostText);
     lostText.textContent='You Lost~!!';
+    stopBg();
 };
 //When Win
 function youWon() {
@@ -144,6 +166,8 @@ function youWon() {
     `;
     lost.appendChild(lostText);
     lostText.textContent='You Won~!!';
+    stopBg();
+    gameWin.play();
 }
 
 //When press stop button
@@ -156,6 +180,7 @@ function pressStop() {
     `;
     lost.appendChild(lostText);
     lostText.textContent='Replay??';
+    alert.play();
 }
 //retry event
 retryBtn.addEventListener('click',()=>{
@@ -186,4 +211,5 @@ retryBtn.addEventListener('click',()=>{
         j++;
     };
     makeBugs();
+    startBg();  
 })

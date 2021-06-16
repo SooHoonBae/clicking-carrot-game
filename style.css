@@ -80,9 +80,11 @@ button:hover {
 }
 .carrot,
 .bug {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateX(0);
   cursor: pointer;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.carrot:hover {
+  transform: scale(1.1);
 }
