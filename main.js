@@ -155,6 +155,7 @@ function youLost() {
     lost.appendChild(lostText);
     lostText.textContent='You Lost~!!';
     stopBg();
+    bugPull.play();
 };
 //When Win
 function youWon() {
